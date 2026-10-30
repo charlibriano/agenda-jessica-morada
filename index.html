@@ -29,6 +29,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 .acts{display:flex;gap:8px;flex:none;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 @media (max-width:640px){.top{flex-wrap:wrap}.acts{width:100%;justify-content:space-between}.acts .btn{padding:7px 10px;font-size:13px}}
 .pager{display:flex;align-items:center;gap:6px}.pager b{font-variant-numeric:tabular-nums;min-width:30px;text-align:center}
+.figrow{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center}
+.figrow .figc{width:52px;height:52px;border-radius:10px;border:1px solid var(--line)}
+.figtxt{display:flex;flex-direction:column;min-width:0}.figtxt b{color:var(--fg);font-size:13px}.figtxt small{font-size:11px;color:var(--muted);font-weight:600}
+.figgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px;margin-top:4px}
+.figb{position:relative;padding:0;border:2px solid transparent;border-radius:10px;background:none;cursor:pointer;aspect-ratio:1;max-width:100%}
+.figb .figc{width:100%;height:100%;border-radius:8px;display:block}
+.figb.on{border-color:var(--accent)}.figb i{position:absolute;left:0;right:0;bottom:1px;font-size:9px;font-style:normal;font-weight:800;color:var(--accent);text-align:center}
 .infobox{border:1px solid rgba(255,138,61,.45);background:rgba(255,138,61,.08);color:#ffd9bf;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.45}
 .btn{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 14px;font-weight:600;cursor:pointer}
 .btn:hover{border-color:#3a4566}
@@ -154,13 +161,13 @@ const VERSOS=[{"g": "Igreja e comunhão", "r": "2 Coríntios 3:18", "t": "Mas to
 /* ---------- ícones desenhados em código (grade 24×24) ---------- */
 const ICONES={auto:'Automático',calendario:'Calendário',cruz:'Cruz',maos:'Mãos erguidas',fogo:'Fogo',salto:'Sapato (mulheres)',pessoa:'Pessoa (homens)',grupo:'Grupo',explosao:'Explosão (jovens)',raio:'Raio',
   nota:'Nota musical',microfone:'Microfone',livro:'Bíblia / livro',dna:'DNA',agua:'Água (batismo)',barraca:'Barraca (acampamento)',calice:'Cálice (ceia)',oculos:'Óculos',
-  coracao:'Coração',casa:'Casa',globo:'Globo (missões)',presente:'Presente',cafe:'Café',megafone:'Megafone',estrela:'Estrela',crianca:'Criança'};
+  coracao:'Coração',casa:'Casa',globo:'Globo (missões)',presente:'Presente',cafe:'Café',megafone:'Megafone',estrela:'Estrela',crianca:'Criança',pomba:'Pomba',biblia:'Bíblia',coroa:'Coroa',trigo:'Trigo',cordeiro:'Cordeiro',oracao:'Mãos em oração',vela:'Vela',lampada:'Lâmpada de azeite',ancora:'Âncora',escudo:'Escudo',sino:'Sino',folha:'Ramo de oliveira',sol:'Sol nascente',montanha:'Montanha',violao:'Violão',bateria:'Bateria',teclado:'Teclado',casal:'Casal',bebe:'Bebê',idoso:'Melhor idade',onibus:'Ônibus / caravana',prato:'Jantar',trofeu:'Troféu',bandeira:'Bandeira',chave:'Chave'};
 function iconeAuto(txt){const t=String(txt||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const R=[[/acampamento|retiro|camp/,'barraca'],[/batismo|batizar|aguas/,'agua'],[/ceia|santa ceia/,'calice'],[/mulher|feminin|mae|maes|senhoras/,'salto'],[/fornalha|fogo|avivamento|chama/,'fogo'],[/homem|homens|masculin|varoes|pai\b|pais\b/,'pessoa'],[/gravacao|grava|cantor|microfone|podcast/,'microfone'],
-    [/musica|louvor|banda|coral|instrumento|ensaio/,'nota'],[/dna|novos membros|membresia/,'dna'],[/curso|escola|estudo|ebd|biblia|discipulado|aula/,'livro'],
+  const R=[[/pentecost|espirito santo/,'pomba'],[/apresentacao de crianca|bebe|bebes|consagracao de crianca/,'bebe'],[/caravana|viagem|excursao|onibus/,'onibus'],[/melhor idade|idoso|terceira idade/,'idoso'],[/jantar|almoco|ceia de natal/,'prato'],[/gincana|campeonato|torneio|futebol/,'trofeu'],[/colheita|gratidao|acao de gracas/,'trigo'],[/ensaio|banda|violao/,'violao'],[/acampamento|retiro|camp/,'barraca'],[/batismo|batizar|aguas/,'agua'],[/ceia|santa ceia/,'calice'],[/mulher|feminin|mae|maes|senhoras/,'salto'],[/fornalha|fogo|avivamento|chama/,'fogo'],[/homem|homens|masculin|varoes|pai\b|pais\b/,'pessoa'],[/gravacao|grava|cantor|microfone|podcast/,'microfone'],
+    [/musica|louvor|banda|coral|instrumento|ensaio/,'nota'],[/dna|novos membros|membresia/,'dna'],[/ebd|biblia|estudo biblico|palavra/,'biblia'],[/curso|escola|estudo|discipulado|aula/,'livro'],
     [/jovens|jovem|juventude|dinamo|adolescente|teen/,'explosao'],[/kids|crianca|infantil|ministerio infantil/,'crianca'],[/missoes|missao|missionari|evangelis/,'globo'],
-    [/oracao|intercessao|vigilia|jejum/,'maos'],[/celebracao|culto de domingo|santa|adoracao/,'maos'],[/tour|show|stand|treta|comedia|teatro|cinema/,'oculos'],
-    [/casal|casais|familia|noivos|casamento/,'coracao'],[/celula|celulas|lar|gc\b|pequeno grupo/,'casa'],[/aniversari|festa|confraterniza/,'presente'],
+    [/vigilia/,'vela'],[/oracao|intercessao|jejum/,'oracao'],[/celebracao|culto de domingo|santa|adoracao/,'maos'],[/tour|show|stand|treta|comedia|teatro|cinema/,'oculos'],
+    [/casal|casais|noivos|casamento/,'casal'],[/familia/,'coracao'],[/celula|celulas|lar|gc\b|pequeno grupo/,'casa'],[/aniversari|festa|confraterniza/,'presente'],
     [/cafe|brunch|lanche|jantar|almoco/,'cafe'],[/conferencia|congresso|seminario|encontro|palestra/,'megafone'],[/culto|reuniao/,'cruz']];
   for(const[re,ic]of R)if(re.test(t))return ic;return 'calendario'}
 function icone(ctx,k,cx,cy,sz,cor,fundo){const s=sz/24;ctx.save();ctx.translate(cx-sz/2,cy-sz/2);ctx.scale(s,s);
@@ -205,6 +212,31 @@ function icone(ctx,k,cx,cy,sz,cor,fundo){const s=sz/24;ctx.save();ctx.translate(
     case 'megafone':fi('M3 9.5h4l10-5v15l-10-5H3z');st('M7 14.5l1.5 5.5h2.6l-1.2-5 M19.5 9.5c1.4.8 1.4 4.2 0 5');break;
     case 'estrela':fi('M12 2l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17l-6.1 3.5 1.5-6.8L2.2 9l6.9-.7z');break;
     case 'crianca':circ(12,6,3.6,true);fi('M12 10.5c-2.5 0-4 1.4-4.6 3.5L6 18.5h3.2V22h5.6v-3.5H18L16.6 14c-.6-2.1-2.1-3.5-4.6-3.5z');st('M8 12.5L4.5 10 M16 12.5l3.5-2.5');break;
+    case 'pomba':fi('M2.5 12.5c3.2-.4 5.8-2.2 7.6-5.2.8-1.4 2.6-1.6 3.6-.4l1.3 1.5 4.6-1.6-2.4 3.6c.6 4.8-2.6 8.5-7.4 8.8-3 .2-5.5-1.1-7.3-3.2l3.3-.5z');ctx.fillStyle=fundo||'#fff';circ(14.6,8.2,.9,true);ctx.strokeStyle=cor;ctx.lineWidth=1.6;st('M10 21.5l2-3.2 M13 21.5l1.2-3.4');break;
+    case 'biblia':fi('M4 3.5h12.5A3.5 3.5 0 0 1 20 7v13.5H6.5A2.5 2.5 0 0 1 4 18z');ctx.fillStyle=fundo||'#fff';ctx.fillRect(11.3,7,1.6,8);ctx.fillRect(9.1,9.2,6,1.6);ctx.fillRect(5.6,18.2,14.4,1);break;
+    case 'coroa':fi('M3 8.5l4.5 4 4.5-7.5 4.5 7.5 4.5-4-1.8 10H4.8z');ctx.fillRect(4.6,19.6,14.8,2.2);ctx.fillStyle=fundo||'#fff';circ(12,13.6,1.4,true);break;
+    case 'trigo':ctx.lineWidth=1.8;st('M12 22V6');for(let i=0;i<4;i++){const y=6+i*3.6;ctx.save();ctx.translate(12,y);ctx.rotate(-.6);ctx.beginPath();ctx.ellipse(-3,0,3.2,1.5,0,0,7);ctx.fill();ctx.restore();ctx.save();ctx.translate(12,y);ctx.rotate(.6);ctx.beginPath();ctx.ellipse(3,0,3.2,1.5,0,0,7);ctx.fill();ctx.restore()}ctx.beginPath();ctx.ellipse(12,3.8,1.6,2.6,0,0,7);ctx.fill();break;
+    case 'violao':ctx.save();ctx.translate(12,12);ctx.rotate(-.75);circ(0,5,5.2,true);circ(0,-.6,3.8,true);ctx.fillRect(-1.1,-12,2.2,9);ctx.fillRect(-2,-13,4,2.6);ctx.fillStyle=fundo||'#fff';circ(0,3.2,1.7,true);ctx.restore();break;
+    case 'bateria':ctx.beginPath();ctx.ellipse(12,9,9,3,0,0,7);ctx.fill();fi('M3 9v8c0 1.7 4 3 9 3s9-1.3 9-3V9c0 1.7-4 3-9 3S3 10.7 3 9z');ctx.fillStyle=fundo||'#fff';ctx.beginPath();ctx.ellipse(12,9,7,1.8,0,0,7);ctx.fill();ctx.strokeStyle=cor;ctx.lineWidth=1.6;st('M6 2.5l4 5 M18 2.5l-4 5');break;
+    case 'teclado':fi('M2 6.5h20v11H2z');ctx.fillStyle=fundo||'#fff';for(let i=0;i<7;i++)ctx.fillRect(3+i*2.7,8,2.1,8);ctx.fillStyle=cor;[0,1,3,4,5].forEach(i=>ctx.fillRect(4.6+i*2.7,8,1.3,4.6));break;
+    case 'oracao':fi('M11.4 3.2c-.6-1-2-.8-2.2.4L7.6 12.5 4 16.6l3.4 4.9 4-3.6c.6-.6 1-1.4 1-2.3V4.7c0-.6-.4-1.2-1-1.5z');fi('M12.6 3.2c.6-1 2-.8 2.2.4l1.6 8.9 3.6 4.1-3.4 4.9-4-3.6c-.6-.6-1-1.4-1-2.3V4.7c0-.6.4-1.2 1-1.5z');break;
+    case 'sol':circ(12,15,5.2,true);ctx.lineWidth=2;['M12 3.5v3','M4.2 7.2l2.1 2.1','M19.8 7.2l-2.1 2.1','M1.5 15h3','M19.5 15h3'].forEach(st);ctx.fillRect(1,19.5,22,2);ctx.fillStyle=fundo||'#fff';ctx.fillRect(1,17,22,2.4);break;
+    case 'montanha':fi('M1.5 20.5L9 7l4 6.5 2.5-3.5 7 10.5z');ctx.fillStyle=fundo||'#fff';fi('M9 7l2.3 3.8-1.5 1.2-1-1.2-1.4 1.4-.9-.8z');break;
+    case 'casal':circ(8,6,3,true);circ(16,6,3,true);fi('M2.5 20.5c0-4.4 2.4-7.6 5.5-7.6s5.5 3.2 5.5 7.6z');fi('M10.5 20.5c0-4.4 2.4-7.6 5.5-7.6s5.5 3.2 5.5 7.6z');ctx.fillStyle=fundo||'#fff';fi('M12 16.8s-2.2-1.4-2.2-3a1.2 1.2 0 0 1 2.2-.6 1.2 1.2 0 0 1 2.2.6c0 1.6-2.2 3-2.2 3z');break;
+    case 'bebe':circ(12,10,7.5,true);ctx.fillStyle=fundo||'#fff';circ(9.4,10,1,true);circ(14.6,10,1,true);ctx.strokeStyle=fundo||'#fff';ctx.lineWidth=1.4;st('M9.8 13.4c1.3 1.1 3.1 1.1 4.4 0');ctx.strokeStyle=cor;ctx.lineWidth=2;st('M12 2.5c1.6-.8 2.4.6 1.4 1.6');fi('M7.5 17h9l-1 5h-7z');break;
+    case 'idoso':circ(10,5,3.2,true);fi('M5 21.5l1.4-8.2C6.8 10.8 8.2 9.6 10 9.6s3 1.2 3.4 3.4l1 5.2h-2.6l-.6-3.2-1.6 6.5z');ctx.lineWidth=1.8;st('M15 11.5l2.5 0v10');break;
+    case 'onibus':fi('M4 3.5h16a1.5 1.5 0 0 1 1.5 1.5v13H2.5V5A1.5 1.5 0 0 1 4 3.5z');ctx.fillStyle=fundo||'#fff';ctx.fillRect(4.5,6,6.5,5);ctx.fillRect(13,6,6.5,5);circ(6.5,15,1.3,true);circ(17.5,15,1.3,true);ctx.fillStyle=cor;circ(6.5,19.5,2,true);circ(17.5,19.5,2,true);break;
+    case 'prato':circ(12,12,6.8,true);ctx.fillStyle=fundo||'#fff';circ(12,12,4.4,true);ctx.fillStyle=cor;ctx.lineWidth=1.6;st('M2.5 4v6.5 M1.5 4v3a1 1 0 0 0 2 0V4 M3.5 4v3 M2.5 10.5V20 M21.5 4c-1.6 1-1.6 6 0 7v9');break;
+    case 'trofeu':fi('M7 3h10v6a5 5 0 0 1-10 0z');ctx.lineWidth=1.8;st('M7 5H4c0 3 1.2 4.6 3.3 5 M17 5h3c0 3-1.2 4.6-3.3 5');ctx.fillRect(11,13.5,2,4);ctx.fillRect(7.5,17.5,9,3.5);break;
+    case 'bandeira':ctx.fillRect(4,2.5,2,19);fi('M6 3.5c3-1.4 5.5 1.4 8.5 0s4-1 5.5-.4v9.5c-1.5-.6-2.5-1-5.5.4s-5.5-1.4-8.5 0z');break;
+    case 'chave':circ(7.5,12,5,true);ctx.fillStyle=fundo||'#fff';circ(7.5,12,2,true);ctx.fillStyle=cor;ctx.fillRect(11.5,10.9,10,2.4);ctx.fillRect(17,13,2,3.5);ctx.fillRect(20,13,2,2.5);break;
+    case 'folha':ctx.lineWidth=1.6;st('M3 21C8 15 12 10 21 3');[[7,16,-1],[10,12.8,-1],[13.4,9.6,-1],[8.6,17.6,1],[12,14.2,1],[15.4,10.8,1]].forEach(([x,y,sd])=>{ctx.save();ctx.translate(x,y);ctx.rotate(sd>0?.25:-2.1);ctx.beginPath();ctx.ellipse(2.6,0,2.8,1.2,0,0,7);ctx.fill();ctx.restore()});break;
+    case 'vela':fi('M8.5 10h7v11.5h-7z');fi('M12 1.8c1.6 2 2.6 3.2 2.6 4.8a2.6 2.6 0 0 1-5.2 0c0-1.6 1-2.8 2.6-4.8z');ctx.fillStyle=fundo||'#fff';ctx.fillRect(10.2,12,1.3,6);break;
+    case 'sino':fi('M12 2.5a1.4 1.4 0 0 1 1.4 1.4v.6a6 6 0 0 1 4.6 5.8v4.2l2 3H4l2-3v-4.2a6 6 0 0 1 4.6-5.8v-.6A1.4 1.4 0 0 1 12 2.5z');circ(12,20.2,1.9,true);break;
+    case 'lampada':fi('M3 13.5c0-1.4 1.4-2.2 3-2.2h9.5l4.5-3c1.3-.8 2.6.6 1.8 1.8l-2.8 4c-1.3 2.4-4 3.9-7 3.9H8c-2.8 0-5-1.8-5-4.5z');ctx.fillRect(7,18.5,7,2.5);fi('M9.5 3c1.4 1.8 2.2 2.9 2.2 4.1a2.2 2.2 0 0 1-4.4 0c0-1.2.8-2.3 2.2-4.1z');break;
+    case 'ancora':ctx.lineWidth=2.2;circ(12,4.5,2.2);st('M12 6.7v14.8 M7.5 10h9 M3.5 13.5c.5 4.5 4 8 8.5 8s8-3.5 8.5-8');fi('M2 14.5l1.5-3 2.5 2.5z');fi('M22 14.5l-1.5-3-2.5 2.5z');break;
+    case 'escudo':fi('M12 2l8.5 3v6.5c0 5-3.6 9-8.5 10.5C7.1 20.5 3.5 16.5 3.5 11.5V5z');ctx.fillStyle=fundo||'#fff';ctx.fillRect(11,6.5,2,11);ctx.fillRect(7.6,9.5,8.8,2);break;
+    case 'cordeiro':circ(9,11,4,true);circ(14,10,4.2,true);circ(17,13,3.6,true);circ(11,14,4,true);circ(15.6,15.6,3.4,true);fi('M3 9.5c0-2 1.6-3.3 3.4-3.3S10 7.5 10 9.5 8.4 13 6.4 13 3 11.5 3 9.5z');ctx.fillRect(9,17,2,4.5);ctx.fillRect(15,17.5,2,4);ctx.fillStyle=fundo||'#fff';circ(5.2,9.2,.9,true);break;
     default:circ(12,12,8)}
   ctx.restore()}
 
@@ -315,7 +347,7 @@ const TEMAS={
    foot:{f:F.right,w:'400',c:'#ff2bd6',sz:32}},
  pop:{nome:'Pop',desc:'Contorno grosso, sombra chapada',cardBg:c=>mix(c.f,'#ffffff',.55),pal:['#ff4d2e','#ffc400','#fb8500','#06d6a0','#3a86ff','#8338ec','#ff5fa2','#2ec4b6'],kickPill:['#111111','#ffe14d'],
    ink:'#111111',muted:'#333333',titleF:F.arch,titleW:400,titleSz:30,titleUp:true,titleLH:1.02,titleCor:()=> '#111111',pill:'filled',pillFill:()=> '#111111',pillTxtC:'#ffffff',pillF:F.cond,pillW:700,pillSz:25,
-   iconCor:()=> '#111111',iconIn:c=>mix(c.f,'#ffffff',.55),iconCircle:false,bodyF:F.inter,detLab:()=> '#111111',detVal:'#1d1d1d',contBg:()=> 'rgba(0,0,0,.09)',contDot:()=> '#111111',selo:'caps',seloCor:()=> '#111111',seloTxt:'#ffe14d',logo:'#111111',
+   iconCor:c=>c.f,iconIn:()=> '#ffffff',iconCircle:false,bodyF:F.inter,detLab:()=> '#111111',detVal:'#1d1d1d',contBg:()=> 'rgba(0,0,0,.09)',contDot:()=> '#111111',selo:'caps',seloCor:()=> '#111111',seloTxt:'#ffe14d',logo:'#111111',
    head:{t1:['400',F.arch,'#111111',150],t2:['400',F.bebas,'#ff4d2e',92],up:'t1'},verse:{f:F.inter,w:'italic 600',c:'#222222',sz:23,lh:1.4,ref:'#ff4d2e',refF:F.inter,refUp:true},
    foot:{f:F.arch,w:'400',c:'#111111',sz:28}},
  kraft:{nome:'Kraft',desc:'Papel pardo e fita adesiva',cardBg:'#fbf6e9',pal:['#a63d2a','#c2862b','#b5543c','#6b7f3a','#2f6f73','#7a4a8c','#8a6d3b','#4d6a8a'],
@@ -348,8 +380,25 @@ function blocoPill(ctx,T,c,lines,x,yy,w,s,draw,align){if(!lines)return yy;const 
     lines.forEach((l,i)=>{const fs=Math.min(ps,ps*(pw-16*s)/Math.max(1,ctx.measureText(l).width));ctx.font=`${T.pillW} ${fs}px ${T.pillF}`;ctx.fillText(l,px+pw/2,yy+6*s+lh*i+lh/2+1)});
     setLS(ctx,0);ctx.textAlign='left';ctx.textBaseline='alphabetic'}
   return yy+ph+12*s}
-function blocoIcone(ctx,T,c,ic,cx,cy,isz,draw){if(!draw)return;if(T.iconCircle){ctx.beginPath();ctx.arc(cx,cy,isz*.62,0,7);ctx.fillStyle=rgba(c.f,.11);ctx.fill();icone(ctx,ic,cx,cy,isz*.72,T.iconCor(c),'#ffffff')}
-  else icone(ctx,ic,cx,cy,isz,T.iconCor(c),T.iconIn(c))}
+/* figura principal: cada estilo redesenha a mesma figura com o seu traço */
+const FIG_CACHE=new Map();
+function traco(){const m=S.modelo;return m==='aquarela'||m==='kraft'?'pincel':m==='neon'?'neon':m==='pop'?'pop':m==='elegante'?'fino':'cheio'}
+function figura(ctx,k,cx,cy,sz,cor,fundo){const tr=traco();if(tr==='cheio'){icone(ctx,k,cx,cy,sz,cor,fundo);return}
+  const sc=Math.max(1,Math.abs(ctx.getTransform().a)||1);const px=Math.max(8,Math.round(sz*sc));const key=[k,px,cor,fundo,tr].join('|');let off=FIG_CACHE.get(key);
+  if(!off){const pad=Math.round(px*.35),N=px+pad*2;off=document.createElement('canvas');off.width=off.height=N;const o=off.getContext('2d');
+    const base=document.createElement('canvas');base.width=base.height=N;const b=base.getContext('2d');icone(b,k,N/2,N/2,px,cor,fundo);
+    const sil=(col)=>{const c2=document.createElement('canvas');c2.width=c2.height=N;const x=c2.getContext('2d');x.drawImage(base,0,0);x.globalCompositeOperation='source-in';x.fillStyle=col;x.fillRect(0,0,N,N);return c2};
+    const dilata=(src,r)=>{const c2=document.createElement('canvas');c2.width=c2.height=N;const x=c2.getContext('2d');for(let a=0;a<16;a++){const ang=a*Math.PI/8;x.drawImage(src,Math.cos(ang)*r,Math.sin(ang)*r)}x.drawImage(src,0,0);return c2};
+    if(tr==='pop'){const r=Math.max(1.5,px*.055);const preto=dilata(sil('#111111'),r);o.drawImage(preto,px*.07,px*.07);o.drawImage(preto,0,0);o.drawImage(base,0,0)}
+    else if(tr==='neon'||tr==='fino'){const r=Math.max(1,px*(tr==='neon'?.05:.028));const anel=dilata(sil(cor),r);const ax=anel.getContext('2d');ax.globalCompositeOperation='destination-out';ax.drawImage(base,0,0);
+      o.globalAlpha=tr==='neon'?.22:.28;o.drawImage(base,0,0);o.globalAlpha=1;if(tr==='neon'){o.shadowColor=cor;o.shadowBlur=px*.18;o.drawImage(anel,0,0);o.shadowBlur=px*.06}o.drawImage(anel,0,0)}
+    else{const r=seeded(hashIdx(k)+px);o.globalAlpha=.42;for(let i=0;i<3;i++){o.save();o.translate(N/2,N/2);o.rotate((r()-.5)*.09);o.drawImage(base,-N/2+(r()-.5)*px*.06,-N/2+(r()-.5)*px*.06);o.restore()}
+      o.globalAlpha=.8;o.drawImage(base,0,0);o.globalAlpha=1;o.globalCompositeOperation='destination-out';for(let i=0;i<px*px/14;i++){o.fillStyle=`rgba(0,0,0,${.25+r()*.5})`;const d=.4+r()*px*.018;o.fillRect(pad+r()*px,pad+r()*px,d,d)}
+      o.globalCompositeOperation='source-over'}
+    if(FIG_CACHE.size>400)FIG_CACHE.clear();FIG_CACHE.set(key,off)}
+  const N=off.width/sc;ctx.drawImage(off,cx-N/2,cy-N/2,N,N)}
+function blocoIcone(ctx,T,c,ic,cx,cy,isz,draw){if(!draw)return;if(T.iconCircle){ctx.beginPath();ctx.arc(cx,cy,isz*.62,0,7);ctx.fillStyle=rgba(c.f,.11);ctx.fill();figura(ctx,ic,cx,cy,isz*.72,T.iconCor(c),'#ffffff')}
+  else figura(ctx,ic,cx,cy,isz,T.iconCor(c),T.iconIn(c))}
 function blocoTitulo(ctx,T,c,txt,x,yy,w,s,draw,align,mult,maxL){const tsz=T.titleSz*(mult||1)*s;const tt=T.titleUp?String(txt).toUpperCase():txt;
   const R=fitLines(ctx,tt,T.titleW,T.titleF,tsz,w,maxL||3,tsz*.62);const lh=R.s*T.titleLH;
   if(draw){ctx.font=`${T.titleW} ${R.s}px ${T.titleF}`;ctx.fillStyle=T.titleCor(c);ctx.textAlign=align==='left'?'left':'center';if(T.titleUp)setLS(ctx,R.s*.02);if(T.glow){ctx.shadowColor=T.titleCor(c);ctx.shadowBlur=14*s}
@@ -365,7 +414,7 @@ function blocoDetalhes(ctx,T,it,x,yy,w,s,draw,align){const c=it.cor;const det=[]
   const bx=align==='left'?x:x+w/2-Math.min(w,bloco)/2;
   det.forEach(([ic,lb,val])=>{ctx.font=`800 ${dsz}px ${T.bodyF}`;const lw=ctx.measureText(lb+' ').width;ctx.font=`600 ${dsz}px ${T.bodyF}`;
     const dois=ctx.measureText(val).width>w-icw-lw;const lines=dois?wrap(ctx,val,w-icw):[val];
-    if(draw){icone(ctx,ic,bx+dsz*.6,yy+dsz*.55,dsz*1.15,T.detLab(c),inn);ctx.font=`800 ${dsz}px ${T.bodyF}`;ctx.fillStyle=T.detLab(c);ctx.fillText(lb,bx+icw,yy+dsz*.92);
+    if(draw){figura(ctx,ic,bx+dsz*.6,yy+dsz*.55,dsz*1.15,T.detLab(c),inn);ctx.font=`800 ${dsz}px ${T.bodyF}`;ctx.fillStyle=T.detLab(c);ctx.fillText(lb,bx+icw,yy+dsz*.92);
       ctx.font=`600 ${dsz}px ${T.bodyF}`;ctx.fillStyle=T.detVal;if(dois)lines.forEach((l,i)=>ctx.fillText(l,bx+icw,yy+dsz*.92+(i+1)*dlh));else ctx.fillText(val,bx+icw+lw,yy+dsz*.92)}
     yy+=(dois?lines.length+1:1)*dlh+4*s});return yy}
 function blocoContatos(ctx,T,it,x,yy,w,s,draw){const c=it.cor;if(COMPACT)return contatoLinha(ctx,T,it,x,yy,w,s,draw);(it.contatos||[]).forEach(ct=>{const cs=19*s;ctx.font=`800 ${cs}px ${T.bodyF}`;const lb=ct.r?ct.r+': ':'';const lw=ctx.measureText(lb).width;ctx.font=`700 ${cs}px ${T.bodyF}`;
@@ -448,8 +497,8 @@ function contatoLinha(ctx,T,it,x,yy,w,s,draw){const cts=(it.contatos||[]);if(!ct
 function linha(ctx,T,it,x,y,w,s,draw,hFix){const c=it.cor,pad=16*s,bw=112*s,bh=bw*.92;const cx0=x+pad+bw+20*s;const cw=w-(cx0-x)-pad;const lin=seloData(it);
   const tsz=T.titleSz*.86*s,isz=tsz*1.05,comIc=!!lin;const tx=cx0+(comIc?isz+12*s:0);
   const conteudo=(yy,d)=>{const tt=T.titleUp?String(it.titulo).toUpperCase():it.titulo;const R=fitLines(ctx,tt,T.titleW,T.titleF,tsz,cw-(tx-cx0),2,tsz*.6);const lh=R.s*T.titleLH;
-      if(d){if(comIc){if(T.iconCircle){ctx.beginPath();ctx.arc(cx0+isz/2,yy+R.s*.5,isz*.58,0,7);ctx.fillStyle=rgba(c.f,.12);ctx.fill();icone(ctx,it.ic,cx0+isz/2,yy+R.s*.5,isz*.68,T.iconCor(c),'#ffffff')}
-          else icone(ctx,it.ic,cx0+isz/2,yy+R.s*.5,isz*.92,T.iconCor(c),T.iconIn(c))}
+      if(d){if(comIc){if(T.iconCircle){ctx.beginPath();ctx.arc(cx0+isz/2,yy+R.s*.5,isz*.58,0,7);ctx.fillStyle=rgba(c.f,.12);ctx.fill();figura(ctx,it.ic,cx0+isz/2,yy+R.s*.5,isz*.68,T.iconCor(c),'#ffffff')}
+          else figura(ctx,it.ic,cx0+isz/2,yy+R.s*.5,isz*.92,T.iconCor(c),T.iconIn(c))}
         ctx.font=`${T.titleW} ${R.s}px ${T.titleF}`;ctx.fillStyle=T.titleCor(c);if(T.titleUp)setLS(ctx,R.s*.02);R.L.forEach((l,i)=>ctx.fillText(l,tx,yy+R.s*.82+i*lh));setLS(ctx,0)}
       yy+=R.L.length*lh+6*s;yy=blocoTexto(ctx,T,it.sub,cx0,yy,cw,s,d,'left',21,700,T.ink);
       if(!COMPACT)yy=blocoTexto(ctx,T,it.desc,cx0,yy,cw,s,d,'left',19,600,T.muted);
@@ -462,7 +511,7 @@ function linha(ctx,T,it,x,y,w,s,draw,hFix){const c=it.cor,pad=16*s,bw=112*s,bh=b
   if(lin){ctx.font=`700 ${19*s}px ${F.cond}`;setLS(ctx,1.5*s);ctx.fillText(lin[0],bcx,by+bh*.2);setLS(ctx,0);
     const big=lin[1].length>3?32*s:54*s;ctx.font=`700 ${big}px ${F.cond}`;const bf=Math.min(big,big*(bw-12*s)/Math.max(1,ctx.measureText(lin[1]).width));ctx.font=`700 ${bf}px ${F.cond}`;ctx.fillText(lin[1],bcx,by+bh*.53);
     ctx.font=`700 ${17*s}px ${F.cond}`;setLS(ctx,1.5*s);const mf=Math.min(17*s,17*s*(bw-12*s)/Math.max(1,ctx.measureText(lin[2]).width));ctx.font=`700 ${mf}px ${F.cond}`;ctx.fillText(lin[2],bcx,by+bh*.83);setLS(ctx,0)}
-  else icone(ctx,it.ic,bcx,by+bh/2,bh*.55,tc,vib?'#ffffff':(suave?'#ffffff':c.f));
+  else figura(ctx,it.ic,bcx,by+bh/2,bh*.55,tc,vib?'#ffffff':(suave?'#ffffff':c.f));
   ctx.textAlign='left';ctx.textBaseline='alphabetic';conteudo(y+(h-ch)/2,true);return h}
 
 /* ---------- cartão grande (layout Destaque) ---------- */
@@ -473,7 +522,7 @@ function heroi(ctx,T,it,x,y,w,s,draw){const c=it.cor,pad=22*s,lw=Math.min(w*.34,
   fundoCartao(ctx,T,it,x,y,w,h,s);
   ctx.save();rr(ctx,x,y,lw,h,(S.modelo==='clean'?16:22)*s);ctx.clip();ctx.fillStyle=S.modelo==='vibrante'?mix(c.f,'#000000',.18):(ESCURO()?rgba(c.f,.35):c.f);ctx.fillRect(x,y,lw,h);
   ctx.fillStyle='rgba(255,255,255,.10)';ctx.beginPath();ctx.arc(x+lw*.15,y+h*.9,lw*.55,0,7);ctx.fill();ctx.restore();
-  const icy=y+h/2-(it.pill?it.pill.length*14*s:0);icone(ctx,it.ic,x+lw/2,icy-10*s,110*s,'#ffffff',ESCURO()?mix(c.f,'#0b1130',.6):c.f);
+  const icy=y+h/2-(it.pill?it.pill.length*14*s:0);figura(ctx,it.ic,x+lw/2,icy-10*s,110*s,'#ffffff',ESCURO()?mix(c.f,'#0b1130',.6):c.f);
   if(it.pill){ctx.fillStyle='#ffffff';ctx.textAlign='center';ctx.font=`700 ${22*s}px ${F.cond}`;setLS(ctx,1.5*s);it.pill.forEach((l,i)=>{const fs=Math.min(22*s,22*s*(lw-24*s)/Math.max(1,ctx.measureText(l).width));ctx.font=`700 ${fs}px ${F.cond}`;ctx.fillText(l,x+lw/2,icy+70*s+i*26*s)});setLS(ctx,0);ctx.textAlign='left'}
   conteudo(y+(h-ch)/2,true);return h}
 
@@ -680,7 +729,7 @@ function itemLineup(ctx,T,it,x,y,w,s,draw){const TP=temaPagina(T);const c=it.cor
   if(draw){const dc=ESCURO()?mix(c.f,'#ffffff',.35):c.f;ctx.fillStyle=dc;ctx.textAlign='left';
     if(lin){const big=lin[1].length>3?52*s:92*s;ctx.font=`400 ${big}px ${F.bebas}`;const bf=Math.min(big,big*dw/Math.max(1,ctx.measureText(lin[1]).width));ctx.font=`400 ${bf}px ${F.bebas}`;ctx.fillText(lin[1],x,y+bf*.82);
       const sub=`${lin[0]} · ${lin[2]}`;setLS(ctx,1.5*s);ctx.font=`700 ${17*s}px ${F.cond}`;const sf=Math.min(17*s,17*s*(dw-4*s)/Math.max(1,ctx.measureText(sub).width));ctx.font=`700 ${sf}px ${F.cond}`;ctx.fillText(sub,x+2*s,y+bf*.82+24*s);setLS(ctx,0)}
-    else icone(ctx,it.ic,x+40*s,y+40*s,70*s,dc,ESCURO()?interior(c):'#ffffff');
+    else figura(ctx,it.ic,x+40*s,y+40*s,70*s,dc,ESCURO()?interior(c):'#ffffff');
     corpo(y,true);ctx.fillStyle=ESCURO()?'rgba(255,255,255,.14)':rgba(TP.ink,.14);ctx.fillRect(x,y+h-10*s,w,1.5*s)}
   return h}
 function layoutLineup(ctx,T,W,P,mx,y,w,s,draw,gap,larga){const blocoL=(itens,titulo)=>{if(!itens.length)return;y+=rotulo(ctx,T,titulo,mx,y,w,s,draw)+16*s;
@@ -757,6 +806,17 @@ window.addEventListener('resize',fitLater);if(window.ResizeObserver)new ResizeOb
 
 /* ---------- painel ---------- */
 const pane=document.getElementById('pane');let tab='semana',aberto=null;
+let figAberto=null;
+const FUNDO_FIG={aquarela:'#fbf6ee',noite:'#0e1536',clean:'#ffffff',vibrante:'#fff8ef',gradiente:'#f6eefc',elegante:'#100e0c',neon:'#140630',pop:'#fff3d6',kraft:'#fbf6e9',ceu:'#e8f4ff'};
+function seletorFig(id,val,txt,cor){const atual=val&&val!=='auto'?val:iconeAuto(txt);const auto=!val||val==='auto';
+  return `<div class="f">Figura<div class="figrow"><canvas class="figc" width="96" height="96" data-fig="${atual}" data-cor="${cor.f}" data-in="${cor.t}"></canvas>
+    <div class="figtxt"><b>${esc(ICONES[atual]||atual)}</b><small>${auto?'Escolhida pelo título':'Escolhida por você'}</small></div>
+    <button type="button" class="btn sm" data-act="figs" data-alvo="${id}">${figAberto===id?'Fechar':'Trocar figura'}</button></div>
+  ${figAberto===id?`<div class="figgrid">${['auto',...Object.keys(ICONES).filter(k=>k!=='auto')].map(k=>{const kk=k==='auto'?iconeAuto(txt):k;const on=(k==='auto'&&auto)||(!auto&&k===val);
+    return `<button type="button" class="figb${on?' on':''}" data-act="fig" data-alvo="${id}" data-v="${k}" title="${esc(ICONES[k])}" aria-label="${esc(ICONES[k])}" aria-pressed="${on}"><canvas class="figc" width="96" height="96" data-fig="${kk}" data-cor="${cor.f}" data-in="${cor.t}"></canvas>${k==='auto'?'<i>auto</i>':''}</button>`}).join('')}</div>`:''}</div>`}
+function desenhaFiguras(){const bg=FUNDO_FIG[S.modelo]||'#ffffff';pane.querySelectorAll('canvas.figc').forEach(c=>{const x=c.getContext('2d');x.setTransform(1,0,0,1,0,0);x.fillStyle=bg;x.fillRect(0,0,96,96);
+  const T=tema();const cor=T.corFixa?T.corFixa.f:c.dataset.cor;const fin=ESCURO()?interior({f:cor,t:c.dataset.in}):(S.modelo==='vibrante'?mix(cor,'#ffffff',.55):'#ffffff');
+  figura(x,c.dataset.fig,48,48,58,ESCURO()?mix(cor,'#ffffff',S.modelo==='noite'?.45:0):cor,fin)})}
 const optsIcone=v=>Object.entries(ICONES).map(([k,n])=>`<option value="${k}"${k===(v||'auto')?' selected':''}>${n}</option>`).join('');
 function paleta(alvo,valor){const v=String(valor||'auto').toLowerCase();
   return `<div class="sw" role="group" aria-label="Cor">${`<button type="button" class="b auto${v==='auto'?' on':''}" data-act="cor" data-alvo="${alvo}" data-v="auto" title="Automática" aria-label="Automática"></button>`}${PAL.map(([n,f])=>`<button type="button" class="b${f===v?' on':''}" style="background:${f}" data-act="cor" data-alvo="${alvo}" data-v="${f}" title="${n}" aria-label="${n}"></button>`).join('')}</div>`}
@@ -784,7 +844,7 @@ function formEvento(e){return `<div class="item-b">
     <button type="button" class="btn sm" data-act="ctAdd">+ Contato</button></div>
   <div class="grid2"><label class="f">Valor<input type="text" id="e-valor-${e.id}" data-k="valor" value="${esc(e.valor)}" placeholder="Ex.: 6x R$100,00"></label>
     <label class="f">Selo de destaque<input type="text" id="e-selo-${e.id}" data-k="selo" value="${esc(e.selo)}" placeholder="Ex.: Vagas limitadas"></label></div>
-  <label class="f">Ícone<select id="e-ic-${e.id}" data-k="icone">${optsIcone(e.icone)}</select></label>
+  ${seletorFig(e.id,e.icone,e.titulo+' '+e.sub,corDe(e,hashIdx(e.id)))}
   <label class="row" style="font-size:13px;font-weight:600;gap:8px"><input type="checkbox" id="e-dest-${e.id}" data-k="destaque"${e.destaque?' checked':''} style="width:18px;height:18px;accent-color:var(--accent)">Usar como destaque no layout Destaque</label>
   <div class="f">Cor${paleta(e.id,e.cor)}</div>
   <div class="row"><button type="button" class="btn sm" data-act="ocultar">${e.oculto?'Mostrar na arte':'Ocultar da arte'}</button><button type="button" class="del" data-act="delEv">Apagar evento</button></div></div>`}
@@ -803,7 +863,8 @@ function paneFixos(){return `<p class="hint">Cultos que acontecem toda semana. E
     <div class="row" style="flex-wrap:nowrap"><label class="f" style="flex:1">Nome<input type="text" id="f-nome-${f.id}" data-k="nome" value="${esc(f.nome)}"></label><button type="button" class="del" data-act="delFixo" style="align-self:flex-end">Remover</button></div>
     <div class="grid3"><label class="f">Dia<select id="f-dia-${f.id}" data-k="dia">${DIAS.map((d,j)=>`<option value="${j}"${j===+f.dia?' selected':''}>${d}</option>`).join('')}</select></label>
       <label class="f">Horário<input type="text" id="f-hora-${f.id}" data-k="hora" value="${esc(f.hora)}"></label>
-      <label class="f">Ícone<select id="f-ic-${f.id}" data-k="icone">${optsIcone(f.icone)}</select></label></div>
+      <span></span></div>
+    ${seletorFig(f.id,f.icone,f.nome,corDe(f,i))}
     <label class="f">Local (opcional)<input type="text" id="f-local-${f.id}" data-k="local" value="${esc(f.local)}"></label>
     <div class="f">Cor${paleta(f.id,f.cor)}</div></div></div>`).join('')}
   <button type="button" class="btn" data-act="novoFixo">+ Culto fixo</button>`}
@@ -846,7 +907,7 @@ function miniLayout(k){const sv=b=>`<svg viewBox="0 0 100 54" width="100%" heigh
   if(k==='destaque')return sv(`<rect x="6" y="5" width="88" height="20" rx="2" fill="${c}" opacity=".5"/><rect x="6" y="5" width="26" height="20" rx="2" fill="${a}"/>`+[6,29,52,75].map(x=>`<rect x="${x}" y="29" width="19" height="9" rx="1.5" fill="${c}" opacity=".5"/>`).join('')+`<rect x="6" y="42" width="42" height="7" rx="1.5" fill="${c}" opacity=".5"/><rect x="52" y="42" width="42" height="7" rx="1.5" fill="${c}" opacity=".5"/>`);
   return sv([6,29,52,75].map(x=>`<rect x="${x}" y="6" width="19" height="16" rx="2" fill="${c}" opacity=".5"/>`).join('')+`<rect x="6" y="27" width="42" height="21" rx="2" fill="${c}" opacity=".5"/><rect x="52" y="27" width="19" height="21" rx="2" fill="${c}" opacity=".5"/><rect x="75" y="27" width="19" height="21" rx="2" fill="${c}" opacity=".5"/><rect x="30" y="24" width="40" height="2" fill="${a}"/>`)}
 function showTab(t,keep){const st=pane.scrollTop;tab=t;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t)));
-  pane.innerHTML=t==='eventos'?paneEventos():t==='fixos'?paneFixos():t==='visual'?paneVisual():paneSemana();if(keep)pane.scrollTop=st;if(t==='semana')draw()}
+  pane.innerHTML=t==='eventos'?paneEventos():t==='fixos'?paneFixos():t==='visual'?paneVisual():paneSemana();desenhaFiguras();if(keep)pane.scrollTop=st;if(t==='semana')draw()}
 document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)showTab(b.dataset.tab)});
 const evById=id=>S.eventos.find(e=>e.id===id),fxById=id=>S.fixos.find(f=>f.id===id);
 function mudaSemana(n){const d=addD(pd(S.ini),n);S.ini=ds(d);PAG=0;save();draw();showTab(tab,true)}
@@ -879,6 +940,8 @@ pane.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)r
   else if(a==='cor'){const alvo=b.dataset.alvo;const o=evById(alvo)||fxById(alvo);if(o){o.cor=b.dataset.v;b.parentElement.querySelectorAll('.b').forEach(x=>x.classList.toggle('on',x===b));const it2=b.closest('.item');const dt=it2&&it2.querySelector('.dot');if(dt)dt.style.background=corDe(o,evById(alvo)?hashIdx(o.id):S.fixos.indexOf(o)).f;save();draw()}}
   else if(a==='modelo'){S.modelo=b.dataset.v;save();draw();showTab('visual',true)}
   else if(a==='formato'){S.formato=b.dataset.v;save();draw();showTab('visual',true)}
+  else if(a==='figs'){figAberto=figAberto===b.dataset.alvo?null:b.dataset.alvo;showTab(tab,true)}
+  else if(a==='fig'){const o=evById(b.dataset.alvo)||fxById(b.dataset.alvo);if(o){o.icone=b.dataset.v;figAberto=null;save();draw();showTab(tab,true);toast('Figura trocada')}}
   else if(a==='paginar'){S.paginar=b.dataset.v;PAG=0;save();draw();showTab('visual',true)}
   else if(a==='layout'){S.layout=b.dataset.v;save();draw();showTab('visual',true)}
   else if(a==='logo'){S.logo=b.dataset.v==='true';save();draw();showTab('visual',true)}
